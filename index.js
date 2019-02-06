@@ -15,10 +15,9 @@ app.get('/', function(req, res) {
 var PiramidTokenContract = new web3.eth.Contract(PiramidTokenOBJ.abi, "0x2A2B68E9Bf718DBf6dF3dF91174A136054a8A0Ec");
 PiramidTokenContract.events.Transfer().on('data', function(event){
   console.log(event);
-
-  //use mongo, mysql etc. to index the event
-
 })
 
+console.log('webserver started...')
+console.log(`listening on 127.0.0.1:8080`)
 
 app.listen(8080);

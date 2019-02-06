@@ -35,11 +35,18 @@ Se Parity non trova la password aggiungete un a capo nel file (=
 
 `truffle migrate --network piramid --reset` per forzare il deploy
 
+## Monitare la blockchain
+
+`node index.js`
+
+E visita `http://localhost:8080`
+
 ## Extras
 
 Per monitorare e "giocare" con il vostro nodo Parity potete installare **Parity UI** https://github.com/parity-js/shell
 
 A questo indirizzo è possibile trovare la configurazione con cui Parity viene avviato di default https://wiki.parity.io/Private-development-chain
+
 
 ## Test transazioni
 
