@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Hello listener</title>
+    <script type="text/javascript" src="js/web3.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  </head>
+  <body>
+    <h1>Hello listener</h1>
+    <ul id="transfer"></ul>
+    <script>
+
+
+      loadJSON('data/PiramidToken.json',
+         function(data) {
+           console.log(data);
+           init(data);
+
+         },
+         function(xhr) {
+           console.error(xhr);
+         }
+      );
+
+      function init(data){
+        if (typeof web3 !== 'undefined') {
+           web3 = new Web3(web3.currentProvider);
+        } else {
+           web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        var PiramidTokenContract = web3.eth.contract(data.abi);
+        var PiramidToken = PiramidTokenContract.at('0x2A2B68E9Bf718DBf6dF3dF91174A136054a8A0Ec');
+        var transferEvent = PiramidToken.Transfer();
+        transferEvent.watch(function(error, result){
+            console.log(result);
+            $("#transfer").append('<li><strong>from:</strong> ' + result.args.from + ' <strong>to:</strong> ' + result.args.to + ' <strong>amount:</strong> ' + result.args.value + '</li>');
+
+        });
+      }
+
+
+       // get the json
+       function loadJSON(path, success, error)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function()
+            {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        if (success)
+                            success(JSON.parse(xhr.responseText));
+                    } else {
+                        if (error)
+                            error(xhr);
+                    }
+                }
+            };
+            xhr.open("GET", path, true);
+            xhr.send();
+        }
+    </script>
+  </body>
+</html>
